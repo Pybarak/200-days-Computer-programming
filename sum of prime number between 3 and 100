@@ -1,0 +1,11 @@
+prime_sum = 0 #initialize sum variable
+for number in range(3, 101): #iterate through members from 3 to 100
+    if number > 1:
+        is_prime = True #check if number is prime
+        for i in range(2, int(number**0.5) + 1):# Check for factors from 2 to square root of number   
+            if number % i == 0: 
+                is_prime = False
+                break
+        if is_prime:
+            prime_sum += number #if number is prime , add to sum
+print("The sum of prime numbers between 3 and 100 is:", prime_sum) #output the total sum
