@@ -1,4 +1,4 @@
-x = int(input("Enter an integer: ")) #allow user to enter any integer.
+x= int(input("Enter an integer: ")) #allow user to enter any integer.
 epsilon = 0.0001 # Varies the accuracy of the result 
 num_guesses = 0 #initialize the number of steps gone through to 0
 if x >= 0:
