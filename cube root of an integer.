@@ -1,0 +1,66 @@
+x = int(input("Enter an integer: ")) #allow user to enter any integer.
+epsilon = 0.0001 # Varies the accuracy of the result 
+num_guesses = 0 #initialize the number of steps gone through to 0
+if x >= 0:
+    low, high = 0, max(1, x) #allow the user to enter any positive integer
+else:
+    low, high = min(-1, x), 0 #allow the user to enter any negative integer.
+ans = (high + low) / 2 # two gueses per iteration 
+while abs(ans**3 - x) >= epsilon:
+    print('low =', low, 'high =', high, 'ans =', ans)
+    num_guesses += 1 #iterating through the next step
+    if ans**3 < x:
+        low = ans
+    else:
+        high = ans
+    ans = (high + low) / 2
+print("Number of guesses:", num_guesses)
+print(ans, 'is close to the cube root of', x)
+import matplotlib.pyplot as plt
+def count_digits(n):
+    """Return the number of digits in an integer (ignoring negative sign)."""
+    return len(str(abs(n)))
+
+def cube_root_approx(x, epsilon=0.01):
+    """Approximate the cube root of x using bisection search and return the number of guesses."""
+    num_guesses = 0
+    if x >= 0:
+        low, high = 0, max(1, x)
+    else:
+        low, high = min(-1, x), 0
+    ans = (high + low) / 2
+    while abs(ans**3 - x) >= epsilon:
+        num_guesses += 1
+        if ans**3 < x:
+            low = ans
+        else:
+            high = ans
+        ans = (high + low) / 2
+    return num_guesses
+
+# Test the algorithm on integers with varying digit lengths
+digit_counts = []
+guess_counts = []
+
+# Test numbers from 1-digit to 10-digit (positive and negative)
+for digits in range(1, 11):
+    # Test a positive and negative number with 'digits' digits
+    test_num_pos = 10**(digits - 1)  # Smallest 'digits'-digit number (e.g., 1, 10, 100, ...)
+    test_num_neg = -test_num_pos
+    
+    # Compute guesses for both
+    guesses_pos = cube_root_approx(test_num_pos)
+    guesses_neg = cube_root_approx(test_num_neg)
+    
+    # Store results (average of pos and neg)
+    digit_counts.append(digits)
+    guess_counts.append((guesses_pos + guesses_neg) / 2)
+
+# Plot the results
+plt.figure(figsize=(10, 6))
+plt.plot(digit_counts, guess_counts, marker='o', linestyle='-', color='b')
+plt.xlabel('Number of Digits in Input Integer')
+plt.ylabel('Number of Guesses (Steps)')
+plt.title('Cube Root Approximation: Steps vs. Number of Digits')
+plt.grid(True)
+plt.show()
