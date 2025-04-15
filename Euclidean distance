@@ -1,0 +1,22 @@
+a = int(input("Enter an integer for y2: "))
+b = int(input("Enter an integer for y1: "))
+c = int(input("Enter an integer for x2: "))
+d = int(input("Enter an integer for x1: "))
+number = abs((a**2 - b**2) + (c**2 - d**2))
+def find_root(number, power, epsilon):
+    if number < 0 and power % 2 == 0:
+        return None
+    low = min(-1.0, number)
+    high = max(1.0, number)  
+    while True:
+        avg = (high + low) / 2
+        current_diff = avg**power - number 
+        print(f"low = {low}, high = {high}")
+        if abs(current_diff) <= epsilon:
+            return avg
+        if current_diff < 0:
+            low = avg
+        else:
+            high = avg
+result = find_root(number, 2, 0.001)
+print("\nFinal result:", result
