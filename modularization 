@@ -1,0 +1,29 @@
+def find_root_bounds(x, power):
+    low = min(-1.0, x)
+    high = max(1.0, x)
+    return low, high
+
+def bisection_solve(x, power, epsilon, low, high):
+    ans = (high + low) / 2
+    while abs(ans**power - x) >= epsilon:
+        if ans**power < x:
+            low = ans
+        else:
+            high = ans
+        ans = (high + low) / 2
+    return ans
+
+def find_root(x, power, epsilon):
+    if x < 0 and power % 2 == 0:
+        return None 
+    low, high = find_root_bounds(x, power)
+    return bisection_solve(x, power, epsilon, low, high)
+if __name__ == "__main__":
+    x = float(input("Enter a number to find its square root: "))
+    power = 2
+    epsilon = 0.001
+    result = find_root(x, power, epsilon)
+    if result is not None:
+        print(f"The square root of {x} (approx. to ±{epsilon}) is: {result:.4f}")
+    else:
+        print(f"Error: Cannot compute the square root of a negative number ({x}).")
