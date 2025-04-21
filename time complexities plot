@@ -1,0 +1,22 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+from collections import deque
+plt.figure(figsize=(12, 8))
+plt.title("Time Complexity Growth Rates")
+plt.xlabel("Input Size (n)")
+plt.ylabel("Operations")
+plt.grid(True)
+n = np.linspace(1, 20, 400)
+plt.plot(n, np.ones_like(n), label="O(1) - Constant")
+plt.plot(n, np.log2(n), label="O(log n) - Logarithmic")
+plt.plot(n, n, label="O(n) - Linear")
+plt.plot(n, n * np.log2(n), label="O(n log n) - Linearithmic")
+plt.plot(n, n**2, label="O(n²) - Quadratic")
+plt.plot(n, n**3, label="O(n³) - Cubic")
+plt.plot(n, 2**n, label="O(2ⁿ) - Exponential")
+factorial = np.vectorize(lambda x: math.factorial(int(x)) if x < 10 else np.nan)
+plt.plot(n, factorial(n)/100000, label="O(n!) - Factorial (scaled)")
+plt.ylim(0, 100)
+plt.legend()
+plt.show()
