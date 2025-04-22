@@ -1,0 +1,71 @@
+import math
+N = 500
+TOL = 0.000001
+
+def fval(x):
+    y = 4 * x + sin(x) - exp(x)
+    return y
+
+def dfval(x):
+    dy = 4 + cos(x) - exp(x)
+    return dy
+def sin(x):
+    x = x % (2 * math.pi)
+    if x > math.pi:
+        x -= 2 * math.pi
+    elif x < -math.pi:
+        x += 2 * math.pi
+    
+    result = 0
+    for n in range(10): 
+        term = ((-1)**n) * (x**(2*n + 1)) / math.factorial(2*n + 1)
+        result += term
+    return result
+def cos(x):
+    x = x % (2 * math.pi)
+    if x > math.pi:
+        x -= 2 * math.pi
+    elif x < -math.pi:
+        x += 2 * math.pi
+    
+    result = 0
+    for n in range(10):
+        term = ((-1)**n) * (x**(2*n)) / math.factorial(2*n)
+        result += term
+    return result
+def exp(x):
+    result = 0
+    for n in range(20): 
+        term = (x**n) / math.factorial(n)
+        result += term
+    return result
+
+x0 = float(input("Enter the initial approximation: "))
+print("iter\t\txk\t\tf(xk)\t\tError")
+
+xk = x0
+fxk = fval(xk)
+print(f"0\t\t{xk:.6f}\t\t{fxk:.6f}\t\t-")
+
+for k in range(1, N+1):
+    xp = xk
+    fxp = fxk
+    dfxp = dfval(xp)
+    
+    if abs(dfxp) < 1e-10:  
+        print("Derivative is too small. Stopping.")
+        break
+    
+    xk = xp - (fxp / dfxp)
+    fxk = fval(xk)
+    error = abs(xk - xp)
+    
+    print(f"{k}\t\t{xk:.6f}\t\t{fxk:.6f}\t\t{error:.6f}")
+    
+    if error < TOL:
+        print(f"\nConverged to solution after {k} iterations.")
+        print(f"Approximate root: {xk:.6f}")
+        print(f"Function value at root: {fxk:.6f}")
+        break
+else:
+    print("\nMaximum iterations reached without convergence.")
