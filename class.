@@ -1,0 +1,53 @@
+class Mortgage(object):
+    """Abstract class for building different kinds of mortgages"""
+    
+    def __init__(self, loan, annRate, months):
+        self.loan = loan
+        self.rate = annRate/12.0
+        self.months = months
+        self.paid = [0.0]
+        self.outstanding = [loan]
+        self.payment = self.find_payment(loan, self.rate, months)
+        self.legend = None  # description of mortgage
+    
+    def find_payment(self, loan, rate, months):
+        """Calculate the monthly payment"""
+        return loan * (rate * (1 + rate)**months) / ((1 + rate)**months - 1)
+    
+    def make_payment(self):
+        """Make a monthly payment"""
+        self.paid.append(self.payment)
+        reduction = self.payment - self.outstanding[-1]*self.rate
+        self.outstanding.append(self.outstanding[-1] - reduction)
+    
+    def get_total_paid(self):
+        """Return total amount paid so far"""
+        return sum(self.paid)
+    
+    def __str__(self):
+        return self.legend
+    
+    def plot_payments(self, style):
+        """Plot payments over time"""
+        plt.plot(self.paid[1:], style, label=self.legend)
+    
+    def plot_balance(self, style):
+        """Plot outstanding balance over time"""
+        plt.plot(self.outstanding, style, label=self.legend)
+    
+    def plot_tot_pd(self, style):
+        """Plot total paid over time"""
+        tot_pd = [self.paid[0]]
+        for i in range(1, len(self.paid)):
+            tot_pd.append(tot_pd[-1] + self.paid[i])
+        plt.plot(tot_pd, style, label=self.legend)
+    
+    def plot_net(self, style):
+        """Plot net gain over time"""
+        tot_pd = [self.paid[0]]
+        for i in range(1, len(self.paid)):
+            tot_pd.append(tot_pd[-1] + self.paid[i])
+        equity_acquired = np.array([self.loan]*len(self.outstanding))
+        equity_acquired = equity_acquired - np.array(self.outstanding)
+        net = np.array(tot_pd) - equity_acquired
+        plt.plot(net, style, label=self.legend)
