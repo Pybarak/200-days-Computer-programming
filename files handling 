@@ -1,0 +1,20 @@
+fn = "smart_meter_data.txt"
+with open(fn, 'w') as fh:
+    fh.write("Meter1: 100\nMeter2: 200\nMeter3: 300\n")
+with open(fn, 'a') as fh:
+    fh.write("Meter4: 400\n")
+with open(fn, 'r') as fh:
+    content = fh.read()
+    print("Full content using read():\n", content)
+with open(fn, 'r') as fh:
+    print("Reading lines using readline():")
+    print(fh.readline(), end='')
+    print(fh.readline(), end='')
+with open(fn, 'r') as fh:
+    lines = fh.readlines()
+    print("Lines in list using readlines():", lines)
+new_readings = ["Meter5: 500\n", "Meter6: 600\n"]
+with open(fn, 'a') as fh:
+    fh.writelines(new_readings)
+with open(fn, 'r') as fh:
+    print("Final content:\n", fh.read())
