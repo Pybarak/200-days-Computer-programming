@@ -1,0 +1,10 @@
+import matplotlib.pyplot as plt
+empty = []
+for i in range(1 , 1001):
+    square = i**2
+    empty.append(square)
+print(empty)
+plt.plot(empty)
+plt.title('Square of Number')
+plt.xlabel('Number')
+plt.ylabel('Square')
